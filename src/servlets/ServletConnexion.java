@@ -16,7 +16,6 @@ public class ServletConnexion extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
     public static final String ATT_DAO_FACTORY = "daofactory";
-    public static final String ATT_PERSONNE = "personne";
     public static final String ATT_FORM = "form";
     public static final String VUE_CONNEXION = "/connexion.jsp";
     public static final String VUE_CONNECTED = "/connected.jsp";
