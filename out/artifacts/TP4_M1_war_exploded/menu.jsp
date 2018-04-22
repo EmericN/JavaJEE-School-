@@ -1,1 +1,0 @@
-<p><a href="/ServletInscription">Inscription </a><a href="/ServletConnexion">Connexion</a></p>
