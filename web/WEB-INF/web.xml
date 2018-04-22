@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="4.0">
+
+
+    <servlet>
+        <description>
+        </description>
+        <display-name>
+            ServletInscription</display-name>
+        <servlet-name>ServletInscription</servlet-name>
+        <servlet-class>
+            servlets.ServletInscription</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletInscription</servlet-name>
+        <url-pattern>/ServletInscription</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <description>
+        </description>
+        <display-name>
+            ServletConnexion</display-name>
+        <servlet-name>ServletConnexion</servlet-name>
+        <servlet-class>
+            servlets.ServletConnexion</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletConnexion</servlet-name>
+        <url-pattern>/ServletConnexion</url-pattern>
+    </servlet-mapping>
+
+    <listener>
+        <listener-class>config.DAOFactoryStarter</listener-class>
+    </listener>
+
+</web-app>
