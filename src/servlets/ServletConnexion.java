@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet(name = "ServletConnexion")
 public class ServletConnexion extends HttpServlet {
@@ -19,6 +20,7 @@ public class ServletConnexion extends HttpServlet {
     public static final String ATT_FORM = "form";
     public static final String VUE_CONNEXION = "/connexion.jsp";
     public static final String VUE_CONNECTED = "/connected.jsp";
+    private List<String> ville;
 
 
 
@@ -38,16 +40,19 @@ public class ServletConnexion extends HttpServlet {
             this.getServletContext().getRequestDispatcher( VUE_CONNECTED ).forward( request, response );
         }else{
             request.setAttribute( ATT_FORM, form );
+            request.setAttribute("ville",ville);
             this.getServletContext().getRequestDispatcher( VUE_CONNEXION ).forward( request, response );
         }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute("ville",ville);
         this.getServletContext().getRequestDispatcher(VUE_CONNEXION).forward(request, response);
     }
 
     public void init() throws ServletException {
         // TODO Auto-generated method stub
         this.personneDao = ( (DAOFactory) getServletContext().getAttribute( ATT_DAO_FACTORY ) ).getPersonneDAO();
+        ville = personneDao.loadVille();
     }
 }

@@ -22,6 +22,7 @@ public class ServletInscription extends HttpServlet {
     public static final String ATT_PERSONNE = "personne";
     public static final String ATT_FORM = "form";
     public static final String VUE = "/inscription.jsp";
+    private List<String> ville;
 
     private PersonneDAO personneDao;
 
@@ -33,6 +34,7 @@ public class ServletInscription extends HttpServlet {
         InscriptionForm form = new InscriptionForm( personneDao );
         Personne personne = form.inscrirePersonne( request );
 
+        request.setAttribute("ville",ville);
         request.setAttribute( ATT_FORM, form );
         request.setAttribute( ATT_PERSONNE, personne);
 
@@ -40,11 +42,13 @@ public class ServletInscription extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute("ville",ville);
         this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
     }
 
     public void init() throws ServletException {
         // TODO Auto-generated method stub
         this.personneDao = ( (DAOFactory) getServletContext().getAttribute( ATT_DAO_FACTORY ) ).getPersonneDAO();
+        ville = personneDao.loadVille();
     }
 }

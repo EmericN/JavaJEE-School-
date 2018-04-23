@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import beans.Personne;
 
@@ -12,6 +14,7 @@ public class PersonneDAOImpl implements PersonneDAO {
 	private static final String SQL_SELECT_LOGIN_UNIQUE = "SELECT login FROM Personne WHERE login = ?";
 	private static final String SQL_SELECT_PAR_LOGIN = "SELECT id, login, password, inscription_date FROM Personne WHERE login = ?";
     private static final String SQL_SELECT_ID_VILLE = "SELECT id FROM ville WHERE ville = ?";
+    private static final String SQL_SELECT_VILLE = "SELECT ville FROM ville WHERE 1";
 	private static final String SQL_INSERT = "INSERT INTO Personne (login, password, inscription_date) VALUES (?, ?, NOW())";
     private static final String SQL_INSERT_RELATION_VILLES_PERSONNE = "INSERT INTO relation_ville_personne (id_personne, id_ville) VALUES (?, ?)";
 	private static final String SQL_CONNEXION_USER = "SELECT id, login, password FROM Personne WHERE login = ? && password = ?";
@@ -63,6 +66,29 @@ public class PersonneDAOImpl implements PersonneDAO {
 
 	}
 
+	@Override
+	public List<String> loadVille() throws DAOException{
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+        List<String> ville = new ArrayList<>();
+
+		try {
+			connexion = daoFactory.getConnection();
+			preparedStatement = DAOutils.initialisationRequetePreparee(connexion, SQL_SELECT_VILLE, true );
+            resultSet = preparedStatement.executeQuery();
+            while ( resultSet.next() ) {
+
+                ville.add(resultSet.getString("ville"));
+                System.out.println("ville load : "+resultSet.getString("ville"));
+            }
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return ville;
+	}
+
 	public Personne getPersonne(String login) throws DAOException {
 		Connection connexion = null;
 	    PreparedStatement preparedStatement = null;
@@ -85,7 +111,7 @@ public class PersonneDAOImpl implements PersonneDAO {
 	    return personne;
 	}
 
-    private String[] getVilleId(String[] villes) throws DAOException {
+    private String[] getVilleId(String[] villes ) throws DAOException {
         Connection connexion = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -98,7 +124,7 @@ public class PersonneDAOImpl implements PersonneDAO {
 
                 resultSet = preparedStatement.executeQuery();
                     if ( resultSet.next() ) {
-                        idVille[i] = resultSet.getString(1);
+                        idVille[i] = resultSet.getString("id");
                     }
 
             }
@@ -168,19 +194,18 @@ public class PersonneDAOImpl implements PersonneDAO {
 		ResultSet resultSet = null;
 		Personne personne = null;
 
-
 		try {
 			connexion = daoFactory.getConnection();
 			preparedStatement = DAOutils.initialisationRequetePreparee( connexion, SQL_SELECT_LOGIN_UNIQUE, false, login);
 			resultSet = preparedStatement.executeQuery();
 			if ( resultSet.next() ) {
-				return true;
+				return false;
 			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		return false;
+		return true;
 	}
 }

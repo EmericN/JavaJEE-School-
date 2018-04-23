@@ -42,8 +42,8 @@ public class InscriptionForm {
 	    
 	    Personne personne = new Personne();
 	    try {
-	        validerLogin( login, personne );
-	        validerPassword( password, personne, confirm_password );
+	        validerLogin( login, personne );                          //Verification du login
+	        validerPassword( password, personne, confirm_password );  //Verification du password
 
 	        if ( erreurs.isEmpty() ) {
 	            personneDao.create( personne, villes );
@@ -83,7 +83,7 @@ public class InscriptionForm {
             throw new FormValidationException( "Le login doit contenir au moins 4 caractères." );
         }else{
            boolean isLoginUnique = personneDao.isLoginUnique(login);
-           if(isLoginUnique){
+           if(!isLoginUnique){
                throw new FormValidationException( "L'utilisateur existe déjà." );
            }
         }

@@ -25,13 +25,12 @@
       </p>
       <p>
        ville :
-		<select name="villes" multiple>
-			<option value="Brest">Brest</option>
-  			<option value="Quimper">Quimper</option>
-  			<option value="Morlaix">Morlaix</option>
-  			<option value="Lorient">Lorient</option>  		
-  		</select>
+          <select name="villes" multiple>
+          <c:forEach items="${ville}" var="ville">
+              <option value=${ville}>${ville}</option>
+          </c:forEach>
       </p>
+        <br />
       <p>
         <input type="submit" value="Valider" />
       </p>
